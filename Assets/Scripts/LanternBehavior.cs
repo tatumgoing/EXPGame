@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class LanternBehavior : MonoBehaviour
 {
+    public GameManager gameManager;
+
     public GameObject lanternLight;
     public Light myLight;
 
@@ -29,23 +31,27 @@ public class LanternBehavior : MonoBehaviour
         {
             enemy.gameObject.GetComponent<EnemyBehavior>().inLight = false;
             DisableLight();
+            endTime = 0;
         }
 
         if (isOn)
         {
             t -= 0.1f * Time.deltaTime;
             myLight.intensity= Mathf.Lerp(0, 1, t);
+            //lightSprite
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && !isOn)
         {
+            gameManager.UpdateCount();
+
             lanternLight.SetActive(true);
             isOn = true;
 
-            endTime = Time.time + 5;
+            //endTime = Time.time + 5;
             
         }
         if (other.gameObject.tag == "Enemy")
@@ -54,8 +60,16 @@ public class LanternBehavior : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            endTime = Time.time + 2;
 
-    public void DisableLight()
+        }
+
+    }
+        public void DisableLight()
     {
         myCollider.gameObject.SetActive(false);
     }

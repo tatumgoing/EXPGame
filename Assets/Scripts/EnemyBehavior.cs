@@ -21,7 +21,7 @@ public class EnemyBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!inLight && !manager.gameOver)
+        if (!inLight && !manager.gameOver && manager.gameStart)
         {
             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, moveSpeed * Time.deltaTime);
         }

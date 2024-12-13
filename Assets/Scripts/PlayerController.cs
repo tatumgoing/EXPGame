@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!manager.gameOver)
+        if (!manager.gameOver && manager.gameStart)
         {
             HandleMovement();
         }
@@ -40,5 +40,14 @@ public class PlayerController : MonoBehaviour
         transform.Translate(Vector3.right * horInput * moveSpeed * Time.deltaTime);
         transform.localEulerAngles= new Vector3 (0,0,0);
        
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "MazeWall")
+        {
+            manager.GameOver();
+        }
+
     }
 }
