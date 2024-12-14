@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 //using System.Diagnostics;
 using UnityEngine;
 
@@ -35,5 +36,9 @@ public class EnemyBehavior : MonoBehaviour
         }
     }
 
+    public float GetDistance()
+    {
+        return Vector3.Distance(transform.position, target.transform.position);
+    }
 
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 
@@ -12,6 +13,8 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverUI;
     public GameObject winGameUI;
     public GameObject startGameUI;
+
+    public AudioManager audioManager;
 
     [Header("Lanterns")]
 
@@ -35,16 +38,26 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        
+        if(lanternCount >= lanterns.Count)
+        {
+            WinGame();
+        }
     }
 
     public void GameOver()
     {
-        gameOverUI.SetActive(true);
+        if (!gameOver)
+        {
+            gameOverUI.SetActive(true);
+            audioManager.PlayDeath();
+        }
+       
+        gameOver = true;
     }
 
     public void WinGame()
     {
+        gameStart = false;
         winGameUI.SetActive(true);
     }
     public void StartOver()
@@ -64,6 +77,10 @@ public class GameManager : MonoBehaviour
 
     public void UpdateCount()
     {
+        if (lanternCount >= 0)
+        {
+            audioManager.PlayLantern();
+        }
         lanternCount++;
         textLantern.text = lanternCount.ToString() + " / " + lanterns.Count.ToString();
     } 
